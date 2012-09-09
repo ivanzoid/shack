@@ -12,12 +12,12 @@ import (
 
 const (
 	URL = "http://www.imageshack.us/upload_api.php"
-	KEY = "9ADLMQRY7964837ec095baa8a90c6ff47db45121"
+	KEY = "" // paste your ImageShack API key
 )
 
-func Die(format string, a ...interface{}) {
-	str := fmt.Sprintf(format, a)
-	fmt.Fprintf(os.Stderr, "%v\n", str)
+func Die(format string, args ...interface{}) {
+	str := fmt.Sprintf(format, args...)
+	fmt.Fprintln(os.Stderr, str)
 	os.Exit(1)
 }
 
@@ -26,6 +26,7 @@ func FakeUTF8CharsetReader(charset string, input io.Reader) (io.Reader, error) {
 }
 
 func main() {
+	Die("foo")
 	if len(KEY) == 0 {
 		Die("please set your API key in source")
 	}
@@ -33,7 +34,7 @@ func main() {
 	// Get arguments
 
 	if len(os.Args) == 1 {
-		Die("missing file name\n")
+		Die("missing file name")
 	}
 
 	filename := os.Args[1]
