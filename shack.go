@@ -26,7 +26,6 @@ func FakeUTF8CharsetReader(charset string, input io.Reader) (io.Reader, error) {
 }
 
 func main() {
-	Die("foo")
 	if len(KEY) == 0 {
 		Die("please set your API key in source")
 	}
