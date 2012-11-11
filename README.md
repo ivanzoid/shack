@@ -36,7 +36,7 @@ Configuration
 
 1. Get your imageshack.us [API key](http://stream.imageshack.us/api/)
 
-2. Create file .shack.cfg in home directory with the following content:
+2. Create file `.shack.cfg` in home directory with the following content:
 ```
 {
 	"key": "your imageshack.us API key"
