@@ -15,7 +15,7 @@ http://img203.imageshack.us/img203/1835/omskbird1502.png
 Installation:
 -------------
 
-a. If you are on Mac OS X, just grab this binary: [](https://github.com/downloads/ivanzoid/shack/shack-bin-0.1.zip)
+a. If you are on Mac OS X, just grab this binary: [shack-bin-0.1.zip](https://github.com/downloads/ivanzoid/shack/shack-bin-0.1.zip)
 
 b. If you use other system or wish to compile from source:
 
