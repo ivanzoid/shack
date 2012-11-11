@@ -1,18 +1,22 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
+	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
+	"path"
 )
 
 const (
-	URL = "http://www.imageshack.us/upload_api.php"
-	KEY = "" // paste your ImageShack API key
+	URL    = "http://www.imageshack.us/upload_api.php"
+	CONFIG = ".shack.cfg"
 )
 
 func Die(format string, args ...interface{}) {
@@ -25,9 +29,46 @@ func FakeUTF8CharsetReader(charset string, input io.Reader) (io.Reader, error) {
 	return input, nil
 }
 
+type Config struct {
+	Key      string `json:"key"`
+	User     string `json:"user"`
+	Password string `json:"password"`
+}
+
+func readConfig() (*Config, error) {
+	homeDir := os.Getenv("HOME")
+	configPath := path.Join(homeDir, CONFIG)
+
+	file, error := os.Open(configPath)
+	if error != nil {
+		return nil, error
+	}
+
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	decoder := json.NewDecoder(reader)
+
+	var config Config
+	error = decoder.Decode(&config)
+
+	if error != nil {
+		return nil, error
+	}
+
+	if len(config.Key) == 0 {
+		return nil, errors.New("Empty API key")
+	}
+
+	return &config, nil
+}
+
 func main() {
-	if len(KEY) == 0 {
-		Die("please set your API key in source")
+
+	config, error := readConfig()
+
+	if error != nil {
+		Die("config error: %v", error)
 	}
 
 	// Get arguments
@@ -44,7 +85,14 @@ func main() {
 	formWriter := multipart.NewWriter(buffer)
 
 	formWriter.WriteField("rembar", "1") // remove information bar
-	formWriter.WriteField("key", KEY)
+	formWriter.WriteField("key", config.Key)
+	if len(config.User) != 0 {
+		formWriter.WriteField("a_username", config.User)
+	}
+	if len(config.Password) != 0 {
+		formWriter.WriteField("a_password", config.Password)
+	}
+
 	fileWriter, _ := formWriter.CreateFormFile("fileupload", filename)
 
 	file, error := os.Open(filename)
