@@ -147,5 +147,5 @@ func main() {
 		Die("error parsing xml: %v", error)
 	}
 
-	fmt.Printf("%v", result.Link)
+	fmt.Printf("%v\n", result.Link)
 }
