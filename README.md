@@ -42,7 +42,6 @@ Configuration
 	"key": "your imageshack.us API key"
 }
 ```
-
 If you wish that your uploaded files to be stored inside your imageshack.us account, you also may specify your username and password:
 ```
 {
